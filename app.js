@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const methodOverride = require('method-override');
 port = 3000;
 const app = express();
 const path = require('path');
@@ -9,6 +10,7 @@ app.set('view engine' , 'ejs');
 app.set('views' , path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({extended : true}));
+app.use(methodOverride('_method'));
 
 
 // Mongo DB connection
@@ -57,6 +59,7 @@ app.get('/listings/:id', async (req , res) => {
 })
 
 
+// create listing
 app.post('/listings' , async (req,res) => {
   let newListing = new Listing(req.body.listing)
   await newListing.save();
@@ -64,6 +67,20 @@ app.post('/listings' , async (req,res) => {
 
 })
 
+// edit listing
+app.get('/listings/:id/edit' , async (req , res) => {
+  let id = req.params.id;
+  const listing = await Listing.findById(id)
+  res.render('listings/edit.ejs' , {listing});
+})
+
+
+// final EDIT route
+app.put('/listings/:id' , async (req,res) => {
+  let {id}= req.params;
+  await Listing.findByIdAndUpdate(id ,{...req.body.listing});
+  res.redirect(`/listings/${id}`);
+})
 
 
 app.get('/listings',async (req , res ) => {
@@ -72,6 +89,8 @@ app.get('/listings',async (req , res ) => {
   console.log('all listings fetched');
 
 })
+
+
 
 
 
