@@ -2,8 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 port = 3000;
 const app = express();
+const path = require('path');
 const Listing = require('./models/listing.js');
 
+app.set('view engine' , 'ejs');
+app.set('views' , path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({extended : true}));
 
 
 // Mongo DB connection
@@ -21,20 +26,54 @@ async function main(){
 
 
 
-app.get('/testListing' , async (req ,res) => {
-  let sampleListing = new Listing({
-    title : 'sample title',
-    description : 'sample description',
+// app.get('/testListing' , async (req ,res) => {
+//   let sampleListing = new Listing({
+//     title : 'sample title',
+//     description : 'sample description',
 
-    price : 100,
-    location : 'sample location',
-    country : 'sample country'
-  });
+//     price : 100,
+//     location : 'sample location',
+//     country : 'sample country'
+//   });
 
-  await sampleListing.save()
-  res.send('sample listing created');
-  console.log('sample listing created');
+//   await sampleListing.save()
+//   res.send('sample listing created');
+//   console.log('sample listing created');
+// })
+
+
+
+// create listing
+app.get('/listings/new' , (req , res) => {
+  res.render('listings/new.ejs');
 })
+
+// show listing  
+app.get('/listings/:id', async (req , res) => {
+  
+  let id = req.params.id;
+  const listing = await Listing.findById(id)
+  res.render('listings/show.ejs' , {listing});
+})
+
+
+app.post('/listings' , async (req,res) => {
+  let newListing = new Listing(req.body.listing)
+  await newListing.save();
+  res.redirect(`/listings`);
+
+})
+
+
+
+app.get('/listings',async (req , res ) => {
+  let allListings = await Listing.find({});
+  res.render('listings/index.ejs' , {allListings});
+  console.log('all listings fetched');
+
+})
+
+
 
 app.get('/' , (req , res) => {
   res.send('all working fine!!')
