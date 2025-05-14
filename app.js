@@ -82,7 +82,16 @@ app.put('/listings/:id' , async (req,res) => {
   res.redirect(`/listings/${id}`);
 })
 
+// delete listing
+app.delete('/listings/:id' , async (req,res) => {
+   let {id}= req.params;
+   let deletedListing = await Listing.findByIdAndDelete(id);
+   console.log('listing deleted' ,deletedListing);
+    res.redirect('/listings');
+})
 
+
+// list all listings
 app.get('/listings',async (req , res ) => {
   let allListings = await Listing.find({});
   res.render('listings/index.ejs' , {allListings});
