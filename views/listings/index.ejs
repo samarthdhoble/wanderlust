@@ -1,78 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wanderlust</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f6f8;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    h1 {
-      color: #2c3e50;
-      margin: 40px 0 20px;
-      font-size: 2rem;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-      margin-bottom: 30px;
-      width: 100%;
-      max-width: 600px;
-    }
-
-    li {
-      background-color: white;
-      margin: 10px 0;
-      padding: 15px 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-      transition: transform 0.2s ease;
-    }
-
-    li:hover {
-      transform: translateY(-3px);
-    }
-
-    a {
-      text-decoration: none;
-      color: #2980b9;
-      font-weight: bold;
-      font-size: 1.1rem;
-    }
-
-    a:hover {
-      color: #1f6391;
-    }
-
-    form {
-      margin: 20px 0 40px;
-    }
-
-    button {
-      background-color: #27ae60;
-      color: white;
-      border: none;
-      padding: 12px 25px;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #1e8c4a;
-    }
-  </style>
-</head>
+<% layout('/layouts/boilerplate') %>
 <body>
 
   <h1>All Listings</h1>
@@ -83,9 +9,9 @@
     <% } %>
   </ul>
 
-  <form action="/listings/new" method="get">
+  <!-- <form action="/listings/new" method="get">
     <button>Create Listing</button>
-  </form>
+  </form> -->
 
 </body>
-</html>
+
