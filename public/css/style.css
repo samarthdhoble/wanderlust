@@ -2,6 +2,7 @@ body{
   background-color: pink;
 }
 
+
 .navbar{
  height: 5rem; 
  background-color: white;
@@ -52,4 +53,45 @@ body{
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+}
+
+
+/* CARDS */
+
+.card{
+  border: none !important;
+  margin-bottom: 2rem;
+}
+
+.card-img-top{
+  border-radius: 1rem !important;
+  width: 100% !important;
+  object-fit: cover;
+}
+
+.card-body{
+  padding: 0 !important;
+}
+
+.card-text p{
+  font-weight: 400;
+
+}
+
+.listing-link{
+  text-decoration: none;
+  color: #222222 !important;
+}
+
+
+
+/* card effects */
+
+.card-img-overlay{
+  opacity: 0 !important;
+}
+
+.card-img-overlay:hover{
+  opacity: 0.2 !important;
+  background-color: white;
 }
