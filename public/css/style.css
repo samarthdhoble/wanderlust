@@ -114,10 +114,9 @@ body{
 /* create listing page*/
 
 
-.add-listing-btn{
+.add-listing-btn , .edit-listing-btn{
   background-color: var(--wanderRed) !important;
   border: none !important;
   color: white !important;
   padding: 0.6rem 2rem !important;
-
 }

@@ -21,6 +21,8 @@
             <textarea class="form-control" name="listing[description]" placeholder="Description"></textarea>
           </div>
 
+          
+
           <div class="mb-3">
             <label for="price" class="form-label">Price</label>
             <input type="text" class="form-control" name="listing[price]" placeholder="Price" required>
@@ -42,7 +44,7 @@
 
           <div class="mb-3">
             <label for="image" class="form-label">Image URL</label>
-            <input type="text" class="form-control" name="listing[image]" placeholder="Image URL/link" required>
+            <input type="text" class="form-control" name="listing.image.url" placeholder="Image URL/link" required>
           </div>
 
           <button type="submit" class="btn mb-3 add-listing-btn">ADD</button>

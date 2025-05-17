@@ -5,8 +5,10 @@ const Listing = require('../models/Listing.js');
 
 // Mongo DB connection
 const MONGOURL = 'mongodb://127.0.0.1:27017/wanderlust';
-main().then(() => {
+main().then(async() => {
   console.log('Connected to MongoDB');
+  
+  await intiDB();
 })
 .catch((err) => {
   console.error('Error connecting to MongoDB:', err);
@@ -23,4 +25,3 @@ const intiDB = async () => {
   console.log('Data Imported');
 };
 
-intiDB();
