@@ -1,7 +1,20 @@
-body{
-  background-color: pink;
+
+
+:root {
+  --wanderRed: #fe424d;
 }
 
+
+body{
+  background-color: pink;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container{
+  flex: 1;
+}
 
 .navbar{
  height: 5rem; 
@@ -10,7 +23,7 @@ body{
 
 
 .fa-compass{
-  color: #fe424d;
+  color: var(--wanderRed);
   font-size: 2rem;
 
 }
@@ -85,6 +98,7 @@ body{
 
 
 
+
 /* card effects */
 
 .card-img-overlay{
@@ -94,4 +108,16 @@ body{
 .card-img-overlay:hover{
   opacity: 0.2 !important;
   background-color: white;
+}
+
+
+/* create listing page*/
+
+
+.add-listing-btn{
+  background-color: var(--wanderRed) !important;
+  border: none !important;
+  color: white !important;
+  padding: 0.6rem 2rem !important;
+
 }
