@@ -1,20 +1,36 @@
 <% layout('/layouts/boilerplate') %>
-<body>
+<body style="background-color: #f4f6f9;">
 
-  <h1>Listing Details</h1>
-  
-  <ul>
-    <li><strong>Title:</strong> <%= listing.title %></li>
-    <li><strong>Description:</strong> <%= listing.description %></li>
-    <li class="price">&#8377;<%= listing.price.toLocaleString('en-IN') %></li>
-    <li class="location"><strong>Location:</strong> <%= listing.location %></li>
-    <li class="country"><strong>Country:</strong> <%= listing.country %></li>
-  </ul>
+  <div class="container py-5">
 
-  <a href="/listings/<%=listing._id%>/edit">EDIT</a>
-  <form action="/listings/<%= listing._id%>?_method=DELETE" method="POST">
-    <button>Delete</button>
-  </form>
+    <div class="row justify-content-center mb-4">
+      <div class="col-md-8 text-center">
+        <h1 class="fw-bold" style="font-size: 2.5rem; color: #343a40;">Listing Details</h1>
+      </div>
+    </div>
 
+    <div class="row justify-content-center">
+      <div class="card p-0 shadow rounded-4 col-md-8">
+       <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing image">
+
+        <div class="card-body px-4 py-3">
+          <h3 class="card-title fw-bold mb-2"><%= listing.title %></h3>
+          <p class="card-text text-muted mb-3" style="font-size: 1rem;"><%= listing.description %></p>
+          <p class="card-text fw-semibold mb-1" style="font-size: 1.2rem; color: #198754;">₹<%= listing.price.toLocaleString('en-IN') %></p>
+          <p class="card-text text-secondary mb-1"><i class="bi bi-geo-alt-fill me-1"></i><%= listing.location %></p>
+          <p class="card-text text-secondary"><%= listing.country %></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-center mt-4">
+      <div class="col-md-8 d-flex justify-content-center gap-4">
+        <a href="/listings/<%= listing._id %>/edit" class="btn  btn-outline-primary px-4 py-2 rounded-pill">Edit</a>
+        <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
+          <button type="submit" class="btn btn-outline-danger px-4 py-2 rounded-pill">Delete</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
 </body>
-
