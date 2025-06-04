@@ -1,19 +1,40 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-
-const listingSchema = new mongoose.Schema({
-  title: String,
-  description: String,
-  image: {
-    url: String,  // Make sure this is included!
+const listingSchema = new Schema({
+  title: {
+    type: String,
+    required: true,
+    trim: true
   },
-  price: Number,
-  location: String,
-  country: String,
+  description: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  image: {
+    url: {
+      type: String,
+      // required: true,
+      default: 'https://www.psdstack.com/wp-content/uploads/2019/08/copyright-free-images-750x420.jpg'
+    }
+  },
+  price: {
+    type: Number,
+    required: true,
+    min: 0
+  },
+  location: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  country: {
+    type: String,
+    required: true,
+    trim: true
+  }
 });
 
-
-const Listing = mongoose.model('Listing' , listingSchema);
-
+const Listing = mongoose.model('Listing', listingSchema);
 module.exports = Listing;
