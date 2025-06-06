@@ -8,6 +8,7 @@ const Listing = require('./models/listing.js');
 const ejsMate = require('ejs-mate');
 const wrapAsync = require('./utils/wrapAsync.js');
 const ExpressError = require('./utils/ExpressError.js');
+const { listingSchema } = require('./schema.js');
 
 app.set('view engine' , 'ejs');
 app.set('views' , path.join(__dirname, 'views'));
@@ -52,12 +53,47 @@ async function main(){
 
 
 
+// MIDDLEWARE TO VALIDATE LISTING DATA ->
+
+// const validateListing = (req, res, next) => {
+//   let { error } = listingSchema.validate(req.body);
+
+//   if (error) {
+//     let errMsg = error.details.map((el) => el.message).join(', ');
+//     throw new ExpressError(400, errMsg);
+//   } else {
+//     next();
+//   }
+// };
+
+
+
+// MIDDLEWARE TO VALIDATE LISTING DATA ->
+
+const validateListing = (req, res, next) => {
+  let { error } = listingSchema.validate(req.body);
+
+  if (error) {
+    let errMsg = error.details.map((el) => {
+      // Extract field name and customize message
+      const field = el.path.join('.');
+      const message = el.message.replace(`"${field}"`, field.split('.').pop());
+      return message;
+    }).join(', ');
+    
+    throw new ExpressError(400, errMsg);
+  } else {
+    next();
+  }
+};
+
+
+
+
 // create listing
-app.post('/listings' , 
+app.post('/listings' ,
+  validateListing, // Validate the request body before creating a listing 
   wrapAsync(async (req,res) => {
-    if (!req.body.listing) {
-      throw new ExpressError(400, "send valid listing data");
-    }
     let newListing = new Listing(req.body.listing)
     await newListing.save();
     res.redirect(`/listings`); 
@@ -84,11 +120,9 @@ app.get('/listings/:id',
 
 
 // edit listing
-app.get('/listings/:id/edit' , 
+app.get('/listings/:id/edit' ,
+  validateListing, // Validate the request body before editing a listing 
   wrapAsync(async (req , res) => {
-    if (!req.body.listing) {
-      throw new ExpressError(400, "send valid listing data");
-    }
     let id = req.params.id;
     const listing = await Listing.findById(id)
     res.render('listings/edit.ejs' , {listing});
@@ -141,7 +175,7 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   console.error(err.stack); // This will log the full error stack trace
   const { statusCode = 500, message = "Something went wrong" } = err;
-  res.status(statusCode).send(message);
+  res.status(statusCode).render('error.ejs', { statusCode, message });
 });
 
 
