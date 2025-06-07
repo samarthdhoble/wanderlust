@@ -1,36 +1,114 @@
 <% layout('/layouts/boilerplate') %>
-<body style="background-color: #f4f6f9;">
+<body style="background-color: #f4f6f9; font-family: 'Segoe UI', sans-serif;">
 
   <div class="container py-5">
 
-    <div class="row justify-content-center mb-4">
-      <div class="col-md-8 text-center">
-        <h1 class="fw-bold" style="font-size: 2.5rem; color: #343a40;">Listing Details</h1>
-      </div>
+
+    <!-- Title -->
+    <div class="text-center mb-4">
+      <h1 class="fw-bold" style="font-size: 2.8rem; color: #343a40;"><%= listing.title %></h1>
     </div>
 
-    <div class="row justify-content-center">
-      <div class="card p-0 shadow rounded-4 col-md-8">
-       <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing image">
 
-        <div class="card-body px-4 py-3">
-          <h3 class="card-title fw-bold mb-2"><%= listing.title %></h3>
-          <p class="card-text text-muted mb-3" style="font-size: 1rem;"><%= listing.description %></p>
-          <p class="card-text fw-semibold mb-1" style="font-size: 1.2rem; color: #198754;">₹<%= listing.price.toLocaleString('en-IN') %></p>
-          <p class="card-text text-secondary mb-1"><i class="bi bi-geo-alt-fill me-1"></i><%= listing.location %></p>
-          <p class="card-text text-secondary"><%= listing.country %></p>
+    <!-- Image -->
+    <div class="mb-4 text-center">
+      <img src="<%= listing.image.url %>" alt="listing image" 
+          style="width: 100%; max-width: 700px; height: 500px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+    </div>
+
+
+    <!-- Description & Details -->
+    <div class="mx-auto" style="max-width: 700px;">
+      <p class="text-muted fs-5 mb-3"><%= listing.description %></p>
+      <p class="fw-semibold fs-4 mb-1 text-success">₹<%= listing.price.toLocaleString('en-IN') %></p>
+      <p class="text-secondary mb-1"><i class="bi bi-geo-alt-fill me-1"></i><%= listing.location %></p>
+      <p class="text-secondary"><%= listing.country %></p>
+    </div>
+
+
+    <!-- Action Buttons -->
+    <div class="d-flex justify-content-center gap-3 mt-4">
+      <a href="/listings/<%=listing._id%>/edit" class="btn btn-outline-primary px-4 py-2 rounded-pill">Edit</a>
+      <form action="/listings/<%=listing._id%>?_method=DELETE" method="POST">
+        <button type="submit" class="btn btn-outline-danger px-4 py-2 rounded-pill">Delete</button>
+      </form>
+    </div>
+
+    <hr class="my-5">
+
+
+    <!-- Review Section -->
+    <div class="mt-5 mx-auto" style="max-width: 700px;">
+      <h4 class="mb-3 fw-semibold">Leave a Review</h4>
+      <form action="/listings/<%= listing.id%>/reviews" method="POST" novalidate class="needs-validation">
+        <div class="mb-3">
+          <label for="rating" class="form-label fw-semibold">Rating</label>
+          <input type="range" min="1" max="5" name="review[rating]" id="rating" class="form-range">
         </div>
-      </div>
+        <div class="mb-3">
+
+          <label for="comment" class="form-label fw-semibold">Comment</label>
+
+          <textarea name="review[comment]" id="comment" rows="4" class="form-control" placeholder="Write your thoughts here..." required></textarea>
+          <div class="invalid-feedback"> Please add some comments for review</div>
+
+        </div>
+        <button type="submit" class="btn btn-success px-4 rounded-pill">Submit Review</button>
+      </form>
+    </div>
+    
+    <!-- <hr>
+    THIS IS WRITTEN BY ME ->
+
+    <p><b> All reviews </b></p>
+    <div class="row">
+      <% for(review of listing.reviews) { %>
+        <div class="card col-6 ms-3 mb-3">
+          <div class="card-body">
+            <h5 class="card-title">joe due</h5>
+            <p class="card-text"><%= review.comment%></p>
+            <p class="card-text"><%= review.rating %></p>
+          </div>
+
+        </div>
+      <% } %>
+    </div>
+     -->
+
+
+<!-- All Reviews Section -->
+
+    <hr class="my-5">
+
+    <h4 class="mb-4 fw-semibold text-center">All Reviews</h4>
+    <div class="row row-cols-1 row-cols-md-2 g-4 px-3">
+      <% for(review of listing.reviews) { %>
+        <div class="col">
+          <div class="card h-100 border-0 bg-transparent ">
+            <div class="card-body px-4 py-3">
+              <h6 class="card-title fw-bold text-dark mb-2">John Doe</h6>
+              <p class="card-text text-dark"><%= review.comment %></p>
+            </div>
+            <div class="card-footer bg-transparent border-0 px-4 pb-3">
+              <% for(let i = 1; i <= 5; i++) { %>
+                <% if(i <= review.rating) { %>
+                  <span style="color: #facc15; font-size: 1.2rem; text-shadow: 0 0 4px #facc15;">★</span>
+                <% } else { %>
+                  <span style="color: #e4e4e7; font-size: 1.2rem;">★</span>
+                <% } %>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      <% } %>
     </div>
 
-    <div class="row justify-content-center mt-4">
-      <div class="col-md-8 d-flex justify-content-center gap-4">
-        <a href="/listings/<%=listing._id%>/edit" class="btn  btn-outline-primary px-4 py-2 rounded-pill">Edit</a>
-        <form action="/listings/<%=listing._id%>?_method=DELETE" method="POST">
-          <button type="submit" class="btn btn-outline-danger px-4 py-2 rounded-pill">Delete</button>
-        </form>
-      </div>
-    </div>
 
-  </div>
+
+
+
+  </div> 
+
+
+
 </body>

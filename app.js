@@ -8,7 +8,9 @@ const Listing = require('./models/listing.js');
 const ejsMate = require('ejs-mate');
 const wrapAsync = require('./utils/wrapAsync.js');
 const ExpressError = require('./utils/ExpressError.js');
-const { listingSchema } = require('./schema.js');
+const { listingSchema, reviewSchema } = require('./schema.js');
+const Review = require('./models/review.js');
+
 
 app.set('view engine' , 'ejs');
 app.set('views' , path.join(__dirname, 'views'));
@@ -88,6 +90,25 @@ const validateListing = (req, res, next) => {
 };
 
 
+const validateReview = (req, res, next) => {
+  let { error } = reviewSchema.validate(req.body);
+
+  if (error) {
+    let errMsg = error.details.map((el) => {
+      // Extract field name and customize message
+      const field = el.path.join('.');
+      const message = el.message.replace(`"${field}"`, field.split('.').pop());
+      return message;
+    }).join(', ');
+    
+    throw new ExpressError(400, errMsg);
+  } else {
+    next();
+  }
+};
+
+
+
 
 
 // create listing
@@ -113,7 +134,7 @@ app.get('/listings/:id',
   wrapAsync( async (req , res) => {
   
     let id = req.params.id;
-    const listing = await Listing.findById(id)
+    const listing = await Listing.findById(id).populate('reviews');
     res.render('listings/show.ejs' , {listing});
   })
 );
@@ -145,15 +166,30 @@ app.put('/listings/:id' ,
 // delete listing
 app.delete('/listings/:id' , 
   wrapAsync(async (req,res) => {
-    if (!req.body.listing) {
-      throw new ExpressError(400, "send valid listing data");
-    }
+
     let {id}= req.params;
     let deletedListing = await Listing.findByIdAndDelete(id); 
-    console.log('listing deleted' ,deletedListing);
+    // console.log('listing deleted' ,deletedListing);
     res.redirect('/listings');
   })
 );
+
+
+
+
+app.post('/listings/:id/reviews', validateReview , wrapAsync(async (req , res) => {
+  let listing = await Listing.findById(req.params.id)
+  let newReview = new Review(req.body.review)// 
+
+  listing.reviews.push(newReview);
+
+  await newReview.save();
+  await listing.save();
+
+  // console.log('review added');
+  res.redirect(`/listings/${listing._id}`);
+
+}));
 
 
 // list all listings
