@@ -176,7 +176,7 @@ app.delete('/listings/:id' ,
 
 
 
-
+// add review to listing ->
 app.post('/listings/:id/reviews', validateReview , wrapAsync(async (req , res) => {
   let listing = await Listing.findById(req.params.id)
   let newReview = new Review(req.body.review)// 
@@ -192,6 +192,20 @@ app.post('/listings/:id/reviews', validateReview , wrapAsync(async (req , res) =
 }));
 
 
+// delete review from listing
+app.delete('/listings/:id/reviews/:reviewId',
+  wrapAsync( async (req , res) => {
+    let {id , reviewId} = req.params;
+    await Listing.findByIdAndUpdate(id , {$pull : {reviews : reviewId}});
+
+    await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/listings/${id}`);
+
+  }))
+
+
+
+  
 // list all listings
 app.get('/listings' , 
   wrapAsync(async (req , res ) => {
