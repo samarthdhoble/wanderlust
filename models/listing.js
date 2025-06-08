@@ -16,7 +16,6 @@ const listingSchema = new Schema({
   image: {
     url: {
       type: String,
-      // required: true,
       default: 'https://www.psdstack.com/wp-content/uploads/2019/08/copyright-free-images-750x420.jpg'
     }
   },
