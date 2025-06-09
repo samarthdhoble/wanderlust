@@ -4,6 +4,11 @@ const cookieParser = require('cookie-parser');
 const userRouter = require('./routers/user');
 const postRouter = require('./routers/post');
 const session = require('express-session');
+const flash = require('connect-flash');
+const path = require('path');
+
+app.set('view engine' , 'ejs');
+app.set('views' , path.join(__dirname, 'views'));
 
 // app.use(cookieParser())
 
@@ -32,6 +37,7 @@ app.get('/' , (req , res ) => {
 //   res.send(req.cookies);
 // })
 
+
 const sessionOptions = {
   secret : "mysecretString" ,
   resave : false ,
@@ -40,6 +46,17 @@ const sessionOptions = {
 
 
 app.use(session(sessionOptions));
+app.use(flash());
+
+
+app.use((req , res ,next) => {
+  res.locals.messages = req.flash('success');
+  res.locals.error = req.flash('error');
+  next();
+})
+
+
+
 
 app.get('/test' , (req , res) => {
   res.send('Session Test Endpoint');
@@ -50,12 +67,18 @@ app.get('/test' , (req , res) => {
 app.get('/register', (req ,res) => {
   let { name = 'anonymous'  } = req.query;
   req.session.name = name;
+
+  if(name === 'anonymous') {
+    req.flash('error' , 'user not registered');
+  } else {
+    req.flash('success', `Welcome ${name}`);
+  }
   res.redirect('/hello');
 })
 
 
 app.get('/hello' , (req,res) => {
-  res.send(`Hello  ${req.session.name} ` );
+  res.render('page.ejs' , {name : req.session.name});
 })
 
 // SESSION COUNT EXAMPLE -> 
