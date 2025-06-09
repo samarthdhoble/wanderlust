@@ -1,10 +1,10 @@
 const express = require('express');
 const app = express();
-
+const cookieParser = require('cookie-parser');
 const userRouter = require('./routers/user');
 const postRouter = require('./routers/post');
 
-
+app.use(cookieParser())
 
 app.use(express.json());
 
@@ -14,6 +14,23 @@ app.get('/' , (req , res ) => {
 
 app.use('/users' , userRouter);
 app.use('/posts' , postRouter);
+
+
+app.get('/getcookie' , (req, res) => {
+  res.cookie('greet' , 'hello world');
+  res.send('Cookie has been set');
+})
+
+app.get('/cookieuse' , (req , res) => {
+  let { name = 'random' } = req.cookies;
+  res.send(`Hello ${name}, welcome to the cookie use endpoint!`);
+})
+
+app.get('/showcookie' , (req, res) => {
+  console.log(req.cookies);
+  res.send(req.cookies);
+})
+
 
 // ----------- Server Start -----------
 const PORT = 3000;
