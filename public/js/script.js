@@ -14,3 +14,15 @@
           }, false)
         })
       })()
+
+
+
+// AUTOMATICALLY CLOSE ALERTS OF FLASH MSG AFTER 4 SECONDS ->
+ 
+const alertEl = document.querySelector('.alert');
+  if (alertEl) {
+    setTimeout(() => {
+      const bsAlert = bootstrap.Alert.getOrCreateInstance(alertEl);
+      bsAlert.close();
+    }, 4000); // 4 seconds
+  }
