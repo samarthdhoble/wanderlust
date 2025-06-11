@@ -1,4 +1,4 @@
-# 🛡️ User Authentication using Passport.js (Local Strategy)
+# 🛡️ User Authentication using Passport.js (Local Strategy) 
 
 This guide helps you set up user authentication in your Node.js/Express app using:
 
