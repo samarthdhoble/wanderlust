@@ -4,6 +4,7 @@ const wrapAsync = require('../utils/wrapAsync.js');
 const { listingSchema, reviewSchema } = require('../schema.js');
 const ExpressError = require('../utils/ExpressError.js');
 const Listing = require('../models/listing.js');
+const { isLoggedIn } = require('../middleware.js');
 
 
 // MIDDLEWARE TO VALIDATE LISTING DATA ->
@@ -40,6 +41,7 @@ const validateListing = (req, res, next) => {
 
 // create listing
 router.post('/' ,
+  isLoggedIn,
   validateListing, // Validate the request body before creating a listing 
   wrapAsync(async (req,res) => {
     const { listing } = req.body;
@@ -47,8 +49,6 @@ router.post('/' ,
     if (listing.image && listing.image.url === '') {
       delete listing.image.url;
     }
-
-    
 
     let newListing = new Listing(req.body.listing)
     await newListing.save();
@@ -59,11 +59,10 @@ router.post('/' ,
 
 
 // create listing Form 
-router.get('/new' , (req , res) => {
-  res.render('listings/new.ejs');
+router.get('/new' , isLoggedIn , (req , res) => {
+    res.render('listings/new.ejs');
+
 })
-
-
 
 // show listing  
 router.get('/:id',
@@ -85,6 +84,7 @@ router.get('/:id',
 // edit listing
 router.get('/:id/edit' ,
   validateListing, // Validate the request body before editing a listing 
+  isLoggedIn,
   wrapAsync(async (req , res) => {
     let id = req.params.id;
     const listing = await Listing.findById(id)
@@ -95,6 +95,7 @@ router.get('/:id/edit' ,
 
 // final EDIT route
 router.put('/:id' , 
+  isLoggedIn,
   wrapAsync(async (req,res) => {
     if (!req.body.listing) {
       throw new ExpressError(400, "send valid listing data");
@@ -108,6 +109,7 @@ router.put('/:id' ,
 
 // delete listing
 router.delete('/:id' , 
+  isLoggedIn,
   wrapAsync(async (req,res) => {
 
     let {id}= req.params;
