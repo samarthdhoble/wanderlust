@@ -125,3 +125,78 @@ npm mongoose
 
   Use serialize/deserializeUser() to manage login sessions
 
+
+
+-------------------------------------------------------------------------------------------------------------------
+
+
+# 🔐 Passport.js Login Flow Explained (Local Strategy)
+
+This guide explains how Passport.js is used to authenticate users when they **log in**, using the following route handlers:
+
+---
+
+## 📍 Route: GET `/login`
+
+```js
+router.get('/login', (req, res) => {
+  res.render('users/login.ejs');
+});
+
+
+
+-----------------------------------------------------------------------------------------------------
+
+
+📍 Route: POST /login -> 
+
+
+  router.post('/login',
+    passport.authenticate('local', {
+      failureRedirect: '/login',
+      failureFlash: true
+    }),
+    async (req, res) => {
+      req.flash('success', 'Login successful');
+      res.redirect('/listings');
+    }
+  );
+
+
+  🔍 Step-by-step Breakdown: ->
+
+      1. passport.authenticate('local')
+        Purpose: Triggers Passport's LocalStrategy (username/password) authentication.
+
+        Where it comes from: You configured passport.use(new LocalStrategy(User.authenticate())) earlier in app.js.
+
+        What it checks: Matches the submitted username and password with those in your database (handled internally by passport-local-mongoose).
+
+      2. failureRedirect: '/login'
+        If authentication fails (invalid username or password), the user is redirected back to the login page.
+
+      3. failureFlash: true
+        If login fails, a flash message (like “Invalid credentials”) is stored and displayed using connect-flash.
+
+
+      4. Success Callback Function
+
+        async (req, res) => {
+          req.flash('success', 'Login successful');
+          res.redirect('/listings');
+        }
+
+
+        -> This function runs only if authentication is successful.
+
+        -> req.flash('success', ...) — stores a success message.
+
+        -> res.redirect('/listings') — sends the logged-in user to the listings page (or any protected route).
+
+
+
+passport.authenticate('local') -> Uses LocalStrategy to validate username and password
+
+failureRedirect -> Sends user back to /login if auth fails
+
+failureFlash ->	Shows an error message if login fails
