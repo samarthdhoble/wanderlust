@@ -24,9 +24,18 @@ router.post('/signup' ,
       });
 
       const regUser = await User.register(newUser , password);
-      console.log(regUser);
-      req.flash('success', 'Welcome to wonderlust!');
-      res.redirect('/listings');
+
+      //automatic login after signup
+      req.login(regUser ,(err)=>{
+        if(err){
+          return next(err);
+        }
+
+        req.flash('success', 'Welcome to wonderlust!');
+        res.redirect('/listings');
+
+      })
+      
     }catch(err){
       req.flash('error' , err.message)
       res.redirect('/signup');
