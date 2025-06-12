@@ -9,11 +9,13 @@ const User = require('../models/user.js');
 const passport = require('passport');
 const { saveRedirectUrl } = require('../middleware.js');
 
-
+// Render signup page 
 router.get('/signup' , (req ,res) => {
   res.render('users/signup.ejs');
 })
 
+
+// Actual signup route 
 router.post('/signup' ,
   wrapAsync (
   async (req , res) => {
@@ -45,11 +47,13 @@ router.post('/signup' ,
 ));
 
 
+// Render login form
 router.get('/login',(req , res) => {
   res.render('users/login.ejs');
 })
 
 
+// Actual login feature / route
 router.post('/login' ,
   saveRedirectUrl,
   passport.authenticate('local' ,
@@ -59,6 +63,7 @@ router.post('/login' ,
     req.flash('success','Login successful');
     res.redirect(redirectUrl)
 })
+
 
 // LOGOUT ROUTE
 router.get('/logout' , (req ,res) => {

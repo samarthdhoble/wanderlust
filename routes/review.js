@@ -5,26 +5,10 @@ const ExpressError = require('../utils/ExpressError.js');
 const { listingSchema, reviewSchema } = require('../schema.js');
 const Review = require('../models/review.js');
 const Listing = require('../models/listing.js');
+const { isLoggedIn, isOwner , validateListing , validateReview} = require('../middleware.js');
 
 
-// MIDDLEWARE TO VALIDATE REVIEW DATA ->
-const validateReview = (req, res, next) => {
-  let { error } = reviewSchema.validate(req.body);
 
-  if (error) {
-    let errMsg = error.details.map((el) => {
-      // Extract field name and customize message
-      const field = el.path.join('.');
-      const message = el.message.replace(`"${field}"`, field.split('.').pop());
-      return message;
-    }).join(', ');
-    console.log(error);
-    
-    throw new ExpressError(400, errMsg);
-  } else {
-    next();
-  }
-};
 
 
 // add review to listing ->
