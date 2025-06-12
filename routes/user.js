@@ -7,6 +7,7 @@ const Listing = require('../models/listing.js');
 const { model } = require('mongoose');
 const User = require('../models/user.js');
 const passport = require('passport');
+const { saveRedirectUrl } = require('../middleware.js');
 
 
 router.get('/signup' , (req ,res) => {
@@ -50,11 +51,13 @@ router.get('/login',(req , res) => {
 
 
 router.post('/login' ,
+  saveRedirectUrl,
   passport.authenticate('local' ,
     {failureRedirect : '/login' , failureFlash: true}),
   async (req,res) => {
+    let redirectUrl = res.locals.redirectUrl || "/listings";
     req.flash('success','Login successful');
-    res.redirect('/listings');
+    res.redirect(redirectUrl)
 })
 
 // LOGOUT ROUTE
