@@ -1,46 +1,34 @@
 const express = require('express');
 const router = express.Router();
 const wrapAsync = require('../utils/wrapAsync.js');
-const { listingSchema, reviewSchema } = require('../schema.js');
-const ExpressError = require('../utils/ExpressError.js');
-const Listing = require('../models/listing.js');
-const { model } = require('mongoose');
-const User = require('../models/user.js');
 const passport = require('passport');
 const { saveRedirectUrl } = require('../middleware.js');
 const usersController = require('../controllers/users.js');
 
-// Render signup page 
-router.get('/signup' , 
-  usersController.renderSignupForm
-);
+
+// ========== SIGNUP ROUTES ==========
 
 
-// Actual signup route 
-router.post('/signup' ,
-  wrapAsync (usersController.signup)
-);
+router.route('/signup')
+  .get(usersController.renderSignupForm)         // Render signup form
+  .post(wrapAsync(usersController.signup));      // Handle signup logic
 
+// ========== LOGIN ROUTES ==========
 
-// Render login form
-router.get('/login',
-  usersController.renderLoginForm
-);
+router.route('/login')
+  .get(usersController.renderLoginForm)          // Render login form
+  .post(
+    saveRedirectUrl,
+    passport.authenticate('local', {
+      failureRedirect: '/login',
+      failureFlash: true
+    }),
+    usersController.login                        // Handle login
+  );
 
+// ========== LOGOUT ROUTE ==========
 
-// Actual login feature / route
-router.post('/login' ,
-  saveRedirectUrl,
-  passport.authenticate('local' ,
-    {failureRedirect : '/login' , failureFlash: true}),
-  usersController.login
-);
-
-
-// LOGOUT ROUTE
-router.get('/logout' , 
-  usersController.logout
-);
+router.get('/logout', usersController.logout);   // Logout
 
 
 module.exports = router;
