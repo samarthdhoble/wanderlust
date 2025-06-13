@@ -1,23 +1,14 @@
 if(process.env.NODE_ENV != "production"){
   require('dotenv').config();
 }
-
-console.log(process.env.SECRET)
-
-
-
 const express = require('express');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 port = 3000;
 const app = express();
 const path = require('path');
-const Listing = require('./models/listing.js');
 const ejsMate = require('ejs-mate');
-const wrapAsync = require('./utils/wrapAsync.js');
 const ExpressError = require('./utils/ExpressError.js');
-const { listingSchema, reviewSchema } = require('./schema.js');
-const Review = require('./models/review.js');
 const listingRoutes = require('./routes/listing.js');
 const reviewRoutes = require('./routes/review.js');
 const session = require('express-session');
@@ -85,17 +76,6 @@ app.use((req, res , next )=>{
   res.locals.currUser = req.user;
   next();
 })
-
-
-// app.get('/demouser' , async (req , res) => {
-//   let fakeuser = new User({
-//     email : 'demouser@123',
-//     username : 'demouser'
-//   })
-
-//   let regUser = await User.register(fakeuser , "hello123");
-//   res.send(regUser); 
-// })
 
 
 // Routes

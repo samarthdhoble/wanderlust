@@ -21,19 +21,12 @@ router.get('/new',
 
 router.route('/')
   .get(wrapAsync(listingControllers.index))               // Show all listings
-  // .post(
-  //   isLoggedIn,
-  //   validateListing,
-  //   wrapAsync(listingControllers.createListing)           // Create new listing
-  // );
   .post(
-  upload.single('listing[image][url]'),
-  (req, res) => {
-    console.log(req.file);
-    res.send(req.file);
-  }
-);
-
+    isLoggedIn,
+    // validateListing,
+    upload.single('listing[image][url]'),
+    wrapAsync(listingControllers.createListing)           // Create new listing
+  );
 
 
 // =======================
