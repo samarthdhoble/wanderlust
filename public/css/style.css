@@ -149,3 +149,21 @@ body {
 }
 
 
+/* map */
+
+
+    /* Required: Give height to map */
+#map {
+  height: 600px;
+  width:100%;
+  /* margin-top: 40px;
+  margin-bottom: 40px; */
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+
+.map-info {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
