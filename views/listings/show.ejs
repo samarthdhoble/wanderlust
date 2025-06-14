@@ -82,64 +82,86 @@
     
 <!-- All Reviews Section -->
 
-    <hr class="my-5">
-    
-    <h4 class="mb-4 fw-semibold text-center">All Reviews</h4>
-
-    <div class="row row-cols-1 row-cols-md-2 g-4 px-3">
-      <% for(review of listing.reviews) { %>
+    <% if(listing.reviews.length > 0) { %>
+      <hr class="my-5">
       
-        <div class="col">
-        
-          <div class="card h-100 border-0 bg-transparent">
-          
-            <div class="card-body px-4 py-3">
 
-
-
-
-
-
-
-
-            <p class="mb-2 ps-2 border-start border-3 border-warning-subtle fst-italic text-muted" style="font-size: 0.88rem;">
-              @<%= review.author.username %> left a review
-            </p>
-
-
-              <p class="card-text text-dark"><%= review.comment %></p>
-            </div>
-
-            <div class="card-footer bg-transparent border-0 px-4 pb-3 d-flex justify-content-between align-items-center">
+          <div class="row row-cols-1 row-cols-md-2 g-4 px-3">
             
-              <!-- Star Rating -->
-              <div>
-                <% for(let i = 1; i <= 5; i++) { %>
-                  <% if(i <= review.rating) { %>
-                    <span style="color: #facc15; font-size: 1.2rem; text-shadow: 0 0 4px #facc15;">★</span>
-                  <% } else { %>
-                    <span style="color: #e4e4e7; font-size: 1.2rem;">★</span>
-                  <% } %>
-                <% } %>
-              </div>
+            <% for(review of listing.reviews) { %>
+            
+              <div class="col">
               
-              <!-- Delete Review Button -->
-              <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
-                <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill px-3">Delete</button>
-              </form>
+                <div class="card h-100 border-0 bg-transparent">
+                
+                  <div class="card-body px-4 py-3">
+
+
+
+
+
+
+
+
+                  <p class="mb-2 ps-2 border-start border-3 border-warning-subtle fst-italic text-muted" style="font-size: 0.88rem;">
+                    @<%= review.author.username %> left a review
+                  </p>
+
+
+                    <p class="card-text text-dark"><%= review.comment %></p>
+                  </div>
+
+                  <div class="card-footer bg-transparent border-0 px-4 pb-3 d-flex justify-content-between align-items-center">
+                  
+                    <!-- Star Rating -->
+                    <div>
+                      <% for(let i = 1; i <= 5; i++) { %>
+                        <% if(i <= review.rating) { %>
+                          <span style="color: #facc15; font-size: 1.2rem; text-shadow: 0 0 4px #facc15;">★</span>
+                        <% } else { %>
+                          <span style="color: #e4e4e7; font-size: 1.2rem;">★</span>
+                        <% } %>
+                      <% } %>
+                    </div>
+                    
+                    <!-- Delete Review Button -->
+                    <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
+                      <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill px-3">Delete</button>
+                    </form>
+                  
+                  </div>
+                
+                </div>
+              
+              </div>
             
-            </div>
-          
+            <% } %>
           </div>
-        
-        </div>
-      
-      <% } %>
-    </div>
+
+    <% } %>
+
+    
+
+    <hr class="my-5">
+
+    <section class="map-info text-center mt-5 mb-5">
+      <h4 class="mb-4 fw-semibold text-center">Where You’ll Be</h4>
+      <div class="mb-4 text-muted">
+        <%= listing.location %>, <%= listing.country %>
+      </div>
+      <div id="map" class="rounded-3" data-location="<%= listing.location %>" data-country="<%= listing.country %>"></div>
+    </section>
+
+
+
+
+
 
 
 
   </div> 
+
+
 
 
 
