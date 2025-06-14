@@ -30,9 +30,6 @@ module.exports.showListing = async (req, res) => {
 module.exports.createListing = async (req, res) => {
   let url = req.file.path;
   let filename = req.file.filename;
-  console.log(url + "....." + filename);
-
-
 
   const newListing = new Listing(req.body.listing);
   newListing.owner = req.user._id;
@@ -53,13 +50,24 @@ module.exports.renderEditForm = async (req, res) => {
     req.flash('error', 'You do not have permission to edit this listing');
     return res.redirect(`/listings/${id}`);
   }
-  res.render('listings/edit.ejs', { listing });
+
+  let originalImgUrl = listing.image.url;
+  originalImgUrl = originalImgUrl.replace('/upload' , '/upload/w_250')
+  res.render('listings/edit.ejs', { listing , originalImgUrl });
 }
 
 
 module.exports.updateListing = async (req, res) => {
   const { id } = req.params;
-  await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+  let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+
+  if(typeof req.file !== "undefined"){
+    let url = req.file.path;
+    let filename = req.file.filename;
+    listing.image = {url , filename}
+    await listing.save();
+  }
+
   req.flash('success', 'Listing updated');
   res.redirect(`/listings/${id}`);
 }

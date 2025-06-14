@@ -7,7 +7,7 @@
 
 
 
-        <form action="/listings/<%=listing._id%>?_method=PUT" method="POST" class="p-3 needs-validation" novalidate>
+        <form action="/listings/<%=listing._id%>?_method=PUT" method="POST" enctype="multipart/form-data" class="p-3 needs-validation" novalidate>
 
           <div class="mb-3">
             <label for="title" class="form-label">Title</label>
@@ -24,10 +24,18 @@
                 Please enter description.
             </div>
           </div>
+          
+          <div class="mb-4">
+            <label class="form-label">Original Image Preview</label><br>
+            <div style="display: inline-block; padding: 4px; border-radius: 10px; background: linear-gradient(135deg, #6e8efb, #a777e3);">
+              <img src="<%= originalImgUrl %>" alt="Listing Image" style="width: 260px; border-radius: 8px;">
+            </div>
+          </div>
+
 
           <div class="mb-3">
-            <label for="image" class="form-label">Image URL</label>
-            <input type="text" class="form-control" name="listing[image][url]" value="<%=listing.image.url%>">
+            <label for="image" class="form-label">Upload New image</label>
+            <input type="file" class="form-control" name="listing[image][url]">
           </div>
 
 
