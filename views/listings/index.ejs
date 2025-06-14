@@ -1,8 +1,116 @@
 <% layout('/layouts/boilerplate') %> 
 <body>
 
-  <h1 class="pt-2">All Listings</h1>
+<div class="filter-wrapper position-relative mb-4 px-3">
+  <!-- Left Scroll Button -->
+  <button class="scroll-btn left" onclick="scrollFilters('left')">
+    <i class="fa-solid fa-chevron-left"></i>
+  </button>
 
+  <!-- Filters Bar -->
+  <div id="filters" class="d-flex gap-4 overflow-auto px-2 py-2">
+    
+    <!-- Filter Items -->
+    <div class="filter text-center">
+      <i class="fa-solid fa-fire icon text-danger"></i>
+      <div class="label">Trending</div>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-mountain-sun icon"></i>
+      <div class="label">Mountains</div>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-water icon"></i>
+      <div class="label">Beach</div>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-tree icon"></i>
+      <div class="label">Forest</div>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-city icon"></i>
+      <div class="label">City</div>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-umbrella-beach icon"></i>
+      <div class="label">Island</div>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-snowflake icon"></i>
+      <div class="label">Snow</div>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-campground icon"></i>
+      <div class="label">Camping</div>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-tent icon"></i>
+      <div class="label">Cabin</div>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-champagne-glasses icon"></i>
+      <div class="label">Luxury</div>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-bolt icon"></i>
+      <div class="label">Instant Book</div>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-heart icon text-danger"></i>
+      <div class="label">Favorites</div>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-dog icon"></i>
+      <div class="label">Pet Friendly</div>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-person-swimming icon"></i>
+      <div class="label">Pool</div>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-hot-tub-person icon"></i>
+      <div class="label">Hot Tub</div>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-kitchen-set icon"></i>
+      <div class="label">Kitchen</div>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-mug-hot icon"></i>
+      <div class="label">Breakfast</div>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-wifi icon"></i>
+      <div class="label">Wi-Fi</div>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-car icon"></i>
+      <div class="label">Free Parking</div>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-wheelchair icon"></i>
+      <div class="label">Accessible</div>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-child-reaching icon"></i>
+      <div class="label">Family Friendly</div>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-people-roof icon"></i>
+      <div class="label">Shared Room</div>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-moon icon"></i>
+      <div class="label">Nightlife</div>
+    </div>
+
+  </div>
+
+  <!-- Right Scroll Button -->
+  <button class="scroll-btn right" onclick="scrollFilters('right')">
+    <i class="fa-solid fa-chevron-right"></i>
+  </button>
+</div>
 
 
   <div class="row row-cols-lg-3 row-cols-md-3 row-cols-sm-1 g-4">
@@ -17,7 +125,6 @@
           <div class="card-body">
             <h5 class="card-title"><%= listing.title %></h5>
             <p class="card-text">&#8377;<%= listing.price.toLocaleString('en-IN') %> / night</p>
-            <div class="btn btn-primary">Go somewhere</div> <!-- changed from <a> to <div> -->
           </div>
         </div>
       </a>
