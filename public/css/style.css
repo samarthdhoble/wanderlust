@@ -15,7 +15,6 @@ body{
 
 
 
-
 /* create listing page*/
 
 
@@ -173,6 +172,26 @@ body {
   background-color: #f8dcdc;
   color: #e63946;
   border-color: #f3bcbc;
+}
+
+
+/* Rounded search input */
+.navbar form input[type="search"] {
+  border-radius: 50px 0 0 50px;
+  border: 1px solid #dee2e6;
+  box-shadow: none;
+}
+
+/* Rounded search button */
+.navbar form button[type="submit"] {
+  border-radius: 0 50px 50px 0;
+  border: 1px solid #dc3545;
+}
+
+/* Optional: Remove input focus border (cleaner look) */
+.navbar form input[type="search"]:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 
